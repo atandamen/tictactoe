@@ -13,13 +13,6 @@ setmetatable(Player, {
 function Player:__init(board, mark)
 	self.mark = mark
 	self.board = board
-	
-	assert(
-		self.mark ~= nil and type(self.mark) == "string" and 
-		(self.mark ~= 'x' or self.mark ~= 'o')
-	)
-	
-	assert(self.board ~= nil and type(self.board) == "table")
 end
 
 function Player:move()
