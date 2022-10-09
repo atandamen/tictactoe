@@ -1,3 +1,4 @@
+utils = require "utils"
 
 local Board = {}
 Board.__index = Board
@@ -49,7 +50,7 @@ end
 
 function Board:draw() 
 	--/ clear screen
-	os.execute("cls")
+	utils.cls()
 	
 	local sep = string.rep("+-", self.size) .. "+\n"	
 	--/ draw top border
