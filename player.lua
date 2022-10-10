@@ -20,7 +20,7 @@ function Player:move()
 	local n, m = nil, nil
 	
 	local result = true
-	local range = { n = 1, m = self.board.size }
+	local range = { n = 1, m = self.board:size() }
 	repeat
 		io.write("> Player " .. string.upper(self.mark) .. " move, enter n & m: ")
 		
