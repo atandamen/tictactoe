@@ -65,16 +65,20 @@ function Game:__init(mode)
 	end
 end
 
+function Game:move()
+	local player = self.players[self.who]
+	local i, j = player:move()
+	self.board:setCell(i, j, player.mark)
+	self.win = self.board:isWins(player.mark)
+end
+
 function Game:run()
 	repeat
 		self.who = self.step % 2
 		self.board:draw()
 		
-		local player = self.players[self.who]
-		local i, j = player:move()
-		self.board:setCell(i, j, player.mark)
-		self.win = self.board:isWins(player.mark)
-		
+		self:move()
+	
 		--/ wait a little bit in AvA mode
 		if not self.win and self.mode == 2 then utils.wait(0.7) end
 		
@@ -86,113 +90,13 @@ function Game:run()
 	self.board:draw()
 	
 	local who = self.players[self.who]
-	if self.mode == 0 then
-		if self.win then
-			io.write(string.format("Player '%s' won!\n", who.mark))
-		elseif self.win == nil then 
-			io.write("It's draw!\n")
-		end
-	elseif self.mode == 1 then
-		if self.win then
-			io.write(string.format("Player '%s' won!\n", who.mark))
-		elseif self.win == nil then 
-			io.write("It's draw!\n")
-		end
-	elseif self.mode == 2 then 
+	local isAi = who:isAi()
+	if self.win then
+		io.write(string.format("%s '%s' won!\n", 
+			isAi and "Computer" or "Player", who.mark))
+	elseif self.win == nil then 
+		io.write("It's draw!\n")
 	end
-end
-
-function Game:isVictory(player)
-	
-end
-
-
---[[
-function Game:isVictory()
-	--/ check three possible states
-	local result = true
-	local size = self.board:size()
-	
-	--/ check all vertical lines
-	for i=1, size do
-		result = true
-		--/ remember first element
-		local mark = self.board:getCell(i, 1)
-		if mark then 
-			for j=2, size do 
-				local tested = self.board:getCell(i, j)
-				if mark ~= tested then
-					result = false
-					break
-				end
-			end
-		else 
-			result = false
-		end
-		
-		if result then return true end
-	end
-	
-	--/ check all horizontal lines
-	for i=1, size do
-		result = true
-		--/ remember first element
-		local mark = self.board:getCell(1, i)
-		if mark then 
-			for j=2, size do 
-				local tested = self.board:getCell(j, i)
-				if mark ~= tested then
-					result = false
-					break
-				end
-			end
-		else 
-			result = false
-		end
-		
-		if result then return true end
-	end
-	
-	--/ check all possible (only two) crosses
-	result = true
-	
-	local mark = self.board:getCell(1, 1)
-	if mark then
-		for i=2, size do 
-			local tested = self.board:getCell(i, i)
-			if mark ~= tested then
-				result = false
-				break
-			end
-		end
-	else 
-		result = false
-	end
-	if result then return true end
-		
-	result = true
-	
-	local mark = self.board:getCell(1, size)
-	if mark then
-		for i=2, size do 
-			local tested = self.board:getCell(i, size-i+1)
-			if mark ~= tested then
-				result = false
-				break
-			end
-		end
-	else 
-		result = false
-	end
-	if result then return true end
-	
-	return result
-end
-]]--
-
-
-function Game:checkWin(player) 
-	
 end
 
 return Game
