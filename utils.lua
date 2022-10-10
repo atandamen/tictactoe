@@ -41,9 +41,15 @@ end
 
 return {
 	inrange = inrange_,
+	
+	--/ os checker functions
 	getOsName = getOsName_,
 	isWindows = isWindows_,
 	isUnix = isUnix_,
+	
+	--/ busy waiter
 	wait = wait_,
+	
+	--/ clear screen
 	cls = cls_
 }
