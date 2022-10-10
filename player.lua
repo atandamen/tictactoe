@@ -15,6 +15,8 @@ function Player:__init(board, mark)
 	self.board = board
 end
 
+function Player:isAi() return false end
+
 function Player:move()
 	local pattern = "*n"
 	local n, m = nil, nil
@@ -22,7 +24,7 @@ function Player:move()
 	local result = true
 	local range = { n = 1, m = self.board:size() }
 	repeat
-		io.write("> Player " .. string.upper(self.mark) .. " move, enter n & m: ")
+		io.write("> Player '" .. string.upper(self.mark) .. "' move, enter n & m: ")
 		
 		n, m = io.read(pattern), io.read(pattern)
 		if not utils.inrange({ n, m }, range.n, range.m) then

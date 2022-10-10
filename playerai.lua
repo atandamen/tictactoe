@@ -15,6 +15,8 @@ function PlayerAI:__init(board, mark)
 	self.board = board
 end
 
+function PlayerAI:isAi() return true end
+
 function PlayerAI:isGameOver()
 	return self.board:isWins('x') or self.board:isWins('o')
 end
@@ -78,6 +80,8 @@ end
 
 function PlayerAI:move()
 	local n, m = nil, nil
+	
+	io.write("> Computer '" .. string.upper(self.mark) .. "' move...\n")
 
 	local emptyCells = self.board:emptyCells()
 	local depth = #emptyCells
