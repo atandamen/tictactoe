@@ -27,6 +27,12 @@ local isUnix_ = function() return getOsName_() == "Unix" end
 
 local isWindows_ = function() return getOsName_() == "Windows" end
 
+local wait_ = function(sec)
+	if type(sec) ~= "number" then sec = 1 end
+	local to = tonumber(os.clock() + sec)
+	while os.clock() < to do end
+end
+
 local cls_ = function() 
 	local cmd = isUnix_() and "clear" or "cls"
 	os.execute(cmd)
@@ -38,5 +44,6 @@ return {
 	getOsName = getOsName_,
 	isWindows = isWindows_,
 	isUnix = isUnix_,
+	wait = wait_,
 	cls = cls_
 }

@@ -1,3 +1,4 @@
+utils = require 'utils'
 
 local PlayerAI = {}
 PlayerAI.__index = PlayerAI
@@ -94,7 +95,7 @@ function PlayerAI:move()
 		local move = self:minimax(depth, true)
 		n, m = table.unpack(move)
 	end
-	
+	utils.wait(1)
 	return n, m
 end
 

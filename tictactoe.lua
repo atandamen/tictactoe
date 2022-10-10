@@ -6,6 +6,9 @@ Game = require "game"
 local modes = { ["pva"] = 0, ["pvp"] = 1, ["ava"] = 2 }
 
 do
+	--/ setup random seed
+	math.randomseed(os.time())
+	
 	utils.cls()
 	
 	io.write("Game mode? (PvA, PvP, AvA, exit) >")
