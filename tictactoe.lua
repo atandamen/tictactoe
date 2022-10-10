@@ -11,7 +11,7 @@ do
 	
 	utils.cls()
 	
-	io.write("Game mode? (PvA, PvP, AvA, exit) >")
+	io.write("Game mode? (PvA, PvP, AvA, exit) > ")
 	
 	local mode = modes[string.lower(io.read())]	
 	if not mode then return end

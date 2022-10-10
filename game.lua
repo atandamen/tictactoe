@@ -22,17 +22,23 @@ function Game:__init(mode)
 	self.who = 0
 	self.step = 0
 	
+	do 
+		assert(io.write("Board size? (3 .. 5 or default(3)) > "))
+	
+		local size = io.read("*n")
+		if not utils.inrange({ size }, 3, 5) then size = 3 end
 		
-	assert(io.write("Board size? (3 .. 5 or default(3)) >"))
-	
-	local size = io.read("*n")
-	if not utils.inrange({ size }, 3, 5) then size = 3 end
-	
-	self.board = Board(size)
+		if not (self.mode == 1) and size > 3 then
+			io.write("Sorry, but board size greater than 3 isn't currently supported for PvA and AvA modes\nMore research is needed in this area :(\n")
+			os.exit(1)
+		end
+		
+		self.board = Board(size)
+	end
 	
 	if self.mode == 0 then
 		--/ setup who'll play first
-		assert(io.write("New game for... (X or O or default(X)) >"))
+		assert(io.write("New game for... (X or O or default(X)) > "))
 		
 		local who = nil
 		repeat who = io.read() until who:match "[xo]"
@@ -68,6 +74,9 @@ function Game:run()
 		local i, j = player:move()
 		self.board:setCell(i, j, player.mark)
 		self.win = self.board:isWins(player.mark)
+		
+		--/ wait a little bit in AvA mode
+		if not self.win and self.mode == 2 then utils.wait(0.7) end
 		
 		self.step = self.step + 1
 	until self.win or self.win == nil

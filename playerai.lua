@@ -39,9 +39,9 @@ end
 function PlayerAI:minimax(depth, isMax)
 	local best = nil
 	if isMax then
-		best = { -1, -1, -math.huge}
+		best = { -1, -1, -math.huge }
 	else 
-		best = { -1, -1,  math.huge}
+		best = { -1, -1,  math.huge }
 	end
 	
 	if depth == 0 or self:isGameOver() then
@@ -55,7 +55,7 @@ function PlayerAI:minimax(depth, isMax)
 	for _, cell in ipairs(emptyCells) do
 		local i, j = cell[1], cell[2]
 		self.board:setCell(i, j, isMax and ai or human)
---/		self.board:draw()
+
 		local mmove = self:minimax(depth - 1, not isMax)
 		
 		self.board:setCell(i, j, nil)
@@ -87,15 +87,14 @@ function PlayerAI:move()
 	local boardSz = self.board:size()
 	local maxDepth = boardSz*boardSz
 	
-	--/ case then depth == maxDepth is 
-	--/ the start of the game
+	--/ case then depth == maxDepth is the start of the game
+	--/ let's choose random 
 	if depth == maxDepth then
 		n, m = math.random(boardSz), math.random(boardSz)
 	else 
 		local move = self:minimax(depth, true)
-		n, m = table.unpack(move)
+		n, m = (table.unpack or unpack)(move)
 	end
-	utils.wait(1)
 	return n, m
 end
 
